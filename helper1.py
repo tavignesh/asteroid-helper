@@ -12,6 +12,11 @@ token = "ODQxMjAxNjU1NzE3OTUzNTU3.YJjUFw.yDtJ3Y_sH3wGrT2jhexr9Yoz_R8"
 
 @client.event
 async def on_ready():
+    game = discord.Game("And helping in Support Servers")
+        # await client.change_presence(status=discord.Status.idle, activity=game)
+        # await client.change_presence(status=discord.Status.online, activity=game)
+        # await client.change_presence(status=discord.Status.invisible, activity=game)
+    await client.change_presence(status=discord.Status.idle, activity=game)
     print("Helper Bot = {} is Ready Boss!!".format(client.user))
 
 
