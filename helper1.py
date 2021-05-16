@@ -48,8 +48,8 @@ async def on_message(message):
             voted_user = await client.fetch_user(int(message.content.split("=")[-1]))
             print(voted_user)
             await message.delete()
-            await message.channel.send(f"{voted_user.mention}, Voted for <@780472070072696852>! Thank you so much!")
-            await message.add_reaction("💗")
+            vtmsg = await message.channel.send(f"{voted_user.mention}, Voted for <@780472070072696852>! Thank you so much!")
+            await vtmsg.add_reaction("💗")
             fio = collection.find_one({"_id":3222 })
             votedic = fio["voters"]
             if str(voted_user.id) in votedic:
@@ -67,8 +67,8 @@ async def on_message(message):
             voted_user = await client.fetch_user(int(message.content.split("=")[-1]))
             print(voted_user)
             await message.delete()
-            await message.channel.send(f"{voted_user.mention}, Voted for Our Server! Thank you so much!")
-            await message.add_reaction("💗")
+            vtmsg2 = await message.channel.send(f"{voted_user.mention}, Voted for Our Server! Thank you so much!")
+            await vtmsg2.add_reaction("💗")
             fio = collection.find_one({"_id": 3222})
             votedic = fio["voters"]
             if str(voted_user.id) in votedic:
@@ -130,4 +130,3 @@ async def on_message(message):
 
 update_server.start()
 client.run(token)
-
