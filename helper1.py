@@ -17,14 +17,18 @@ cluster = MongoClient("mongodb+srv://bot:1234@cluster0.5bkqm.mongodb.net/discord
 db = cluster["discord"]
 collection = db["bot"]
 
-# @tasks.loop(minutes=1)
-# async def update_server():
-    # time.sleep(10)
-    # channel = client.get_channel(784697044236763176)
-    # await channel.send("debugserverct asteroid")
-    # time.sleep(5)
-    # await channel.send("debugserverct asteroidmusic")
-
+@tasks.loop(minutes=1)
+async def update_server():
+    print("in 1")
+    time.sleep(10)
+    print("in 2")
+    channel = client.get_channel(784697044236763176)
+    print("in 3")
+    await channel.send("debugserverct asteroid")
+    print("in 4")
+    time.sleep(5)
+    await channel.send("debugserverct asteroidmusic")
+    print("out 1")
 
 @client.event
 async def on_ready():
@@ -45,6 +49,7 @@ async def on_message(message):
             print(voted_user)
             await message.delete()
             await message.channel.send(f"{voted_user.mention}, Voted for <@780472070072696852>! Thank you so much!")
+            await message.add_reaction("💗")
             fio = collection.find_one({"_id":3222 })
             votedic = fio["voters"]
             if str(voted_user.id) in votedic:
@@ -63,6 +68,9 @@ async def on_message(message):
             print(voted_user)
             await message.delete()
             await message.channel.send(f"{voted_user.mention}, Voted for Our Server! Thank you so much!")
+            await message.add_reaction("💗")
+            fio = collection.find_one({"_id": 3222})
+            votedic = fio["voters"]
             if str(voted_user.id) in votedic:
                 vts = int(votedic[str(voted_user.id)])
                 vts += 1
@@ -88,9 +96,10 @@ async def on_message(message):
         boc = boc["botspace"]
         try:
             goin = 0
+            addbotinfo = ""
             try:
                 for i in range(1, len(list(message.content))):
-                    addbotinfo = message.content.split(" ")[i]
+                    addbotinfo += message.content.split(" ")[i]
                     goin = 1
             except:
                 await message.channel.send("Enter bot id and descreption.\n Example: `ah/addbot botid descreption`")
@@ -119,6 +128,5 @@ async def on_message(message):
         
 
 
-
+update_server.start()
 client.run(token)
-# update_server.start()
