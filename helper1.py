@@ -32,12 +32,12 @@ async def on_ready():
 
 @client.event
 async def on_member_join(member):
-    chan = await fetch_channel(id here)
+    chan = await fetch_channel(834639567687647262)
     await chan.send(embed=discord.Embed(title=f"Welcome To Asteroid Support {member}", description=f"Hope you enjoy your stay here {member.mention} \n** Check these out!** \n __Our website:__ https://asteroidbot.xyz \n__Invite:__ https://asteroidbot.xyz/invite \n __Support Mail:__ support@asteroidbot.xyz"))
 
 @client.event
 async def on_member_leave(member):
-    chan = await channel_fetch(id here)
+    chan = await channel_fetch(835080036205199370)
     await chan.send(embed=discord.Embed(title=f"{member} Left our server :( "))
 
 
