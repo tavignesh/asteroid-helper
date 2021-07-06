@@ -10,34 +10,50 @@ intents = discord.Intents.default()
 intents.members = True
 
 client = discord.Client(intents=intents)
-token = "ODQxMjAxNjU1NzE3OTUzNTU3.YJjUFw.yDtJ3Y_sH3wGrT2jhexr9Yoz_R8"
+toktoo = "ODQxMjAxNjU1NzE3OTUzNTU3.YJjUFw.yDtJ3Y_sH3wGrT2jhexr9Yoz_R8"
 
 
 cluster = MongoClient("mongodb+srv://bot:1234@cluster0.5bkqm.mongodb.net/discord?retryWrites=true&w=majority")
 db = cluster["discord"]
 collection = db["bot"]
 
-@tasks.loop(minutes=1)
-async def update_server():
-    print("in 1")
-    time.sleep(10)
-    print("in 2")
-    channel = client.get_channel(784697044236763176)
-    print("in 3")
-    await channel.send("debugserverct asteroid")
-    print("in 4")
-    time.sleep(5)
-    await channel.send("debugserverct asteroidmusic")
-    print("out 1")
+global logined
+logined = 0
 
 @client.event
 async def on_ready():
-    game = discord.Game("And helping in Support Servers")
+    logined = 1
+    game = discord.Game("Asteroid Support Server, hmm...")
         # await client.change_presence(status=discord.Status.idle, activity=game)
         # await client.change_presence(status=discord.Status.online, activity=game)
         # await client.change_presence(status=discord.Status.invisible, activity=game)
-    await client.change_presence(status=discord.Status.idle, activity=game)
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{game}", status=discord.Status.idle))
     print("Helper Bot = {} is Ready Boss!!".format(client.user))
+
+@client.event
+async def on_member_join(member):
+    chan = await fetch_channel(id here)
+    await chan.send(embed=discord.Embed(title=f"Welcome To Asteroid Support {member}", description=f"Hope you enjoy your stay here {member.mention} \n** Check these out!** \n __Our website:__ https://asteroidbot.xyz \n__Invite:__ https://asteroidbot.xyz/invite \n __Support Mail:__ support@asteroidbot.xyz"))
+
+@client.event
+async def on_member_leave(member):
+    chan = await channel_fetch(id here)
+    await chan.send(embed=discord.Embed(title=f"{member} Left our server :( "))
+
+
+@tasks.loop(minutes=1)
+async def update_server():
+    if logined == 1:
+        print("in 1")
+        time.sleep(30)
+        print("in 2")
+        channel = client.get_channel(784697044236763176)
+        print("in 3")
+        await channel.send("debugserverct asteroid")
+        print("in 4")
+        time.sleep(5)
+        await channel.send("debugserverct asteroidmusic")
+        print("out 1")
 
 
 @client.event
@@ -82,6 +98,17 @@ async def on_message(message):
             print(e)
             await message.channel.send(f"an error occured: {e}")
 
+    if message.content.startswith("id3=") and str(message.channel.id) == "840984366149926922":
+        try:
+            voted_user = await client.fetch_user(int(message.content.split("=")[-1]))
+            print(voted_user)
+            await message.delete()
+            vtmsg2 = await message.channel.send(f"{voted_user.mention}, Voted for <@836830093644791809>! Thank you so much!")
+            await vtmsg2.add_reaction("💗")
+        except Exception as e:
+            print(e)
+            await message.channel.send(f"an error occured: {e}")
+
     if message.content.startswith("ah/addbot help") or message.content.startswith("ah/help addbot") or message.content.startswith("ah/help") or message.content.startswith("ah/ help"):
         await message.add_reaction("<a:ag_gglmod:781410678446489600>")
         await message.channel.send(embed=discord.Embed(title="Asteroid Helper", description="The only command for now:\n__AddBot__: You can add any bot to this server with permissions Defined by the Admins.\n By default You get 1 bot to add but you can purchase more by using `a/ redeem`.\n\n**Rules:** \nNEVER Exploit bugs, Report it!\nStrictly NO NSFW Commands.\nNO Malicous or advertising bots\nNO spam bots or free nitro bots.\n__Warnings__ :warning:: The bot will be removed when you leave the Server.\nThe add bot request will be denied if it tends to violate rules\nThe bot if violates rules or performs malicous activities will be removed and added to ban list(you cant add it again) and also your bot space will not be given back.\nIf you wish to remove a bot or report a bot Create a ticket Using `a/ ticket new`.\n Admins and Moderators have full rights to kick and ban these bots but you will be given a valid reason.\nYour bot wont be added instantly, it will take time.\nA rule not listed here does not mean you can break it, use common sense.\n\n**Syntax:** `ah/addbot botid reason and features`"))
@@ -99,9 +126,12 @@ async def on_message(message):
             addbotinfo = ""
             try:
                 for i in range(1, len(list(message.content))):
-                    addbotinfo += message.content.split(" ")[i]
+                    cooltemp = message.content.split(" ")[i]
+                    addbotinfo += f"{cooltemp} "
                     goin = 1
             except:
+                pass
+            if addbotinfo == "":
                 await message.channel.send("Enter bot id and descreption.\n Example: `ah/addbot botid descreption`")
         except Exception as e:
             await message.channel.send(f"Please report this\nError occured: {e}")
@@ -129,4 +159,4 @@ async def on_message(message):
 
 
 update_server.start()
-client.run(token)
+client.run(toktoo)
