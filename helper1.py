@@ -32,13 +32,19 @@ async def on_ready():
 
 @client.event
 async def on_member_join(member):
+    print(1)
     chan = client.get_channel(834639567687647262)
+    print(11)
     await chan.send(embed=discord.Embed(title=f"Welcome To Asteroid Support {member}", description=f"Hope you enjoy your stay here {member.mention} \n** Check these out!** \n __Our website:__ https://asteroidbot.xyz \n__Invite:__ https://asteroidbot.xyz/invite \n __Support Mail:__ support@asteroidbot.xyz"))
-
+    print(111)
+    
 @client.event
 async def on_member_leave(member):
+    print(2)
     chan = client.get_channel(835080036205199370)
+    print(22)
     await chan.send(embed=discord.Embed(title=f"{member} Left our server :( "))
+    print(222)
 
 
 @tasks.loop(minutes=1)
