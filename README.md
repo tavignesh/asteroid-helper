@@ -1,1 +1,1 @@
-Coooool Discord bot, Asteroid's Source Code!
+A helper bot for the asteroid bot.
